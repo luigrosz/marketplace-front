@@ -2,6 +2,7 @@
   import CardProduct from "./lib/CardProduct.svelte";
   import RadioButtonGroup from "./lib/RadioButtonGroup.svelte";
   import { getProducts, voteProduct } from "./utils/productsReq";
+  import RegisterAndLogin from "./lib/RegisterAndLogin.svelte";
 
   type ProductCategory = "Todos" | "Roupas" | "Eletronicos" | "Moveis";
   const categoryOptions: ProductCategory[] = [
@@ -23,9 +24,12 @@
   //   modified_at: string;
   // }
 
+  // ESTADOS
   let promiseProducts = $state(getProducts("Todos"));
   let category: ProductCategory = $state("Todos");
   let searchQuery: string = $state("");
+  let isLoggedIn = $state(false);
+  let showModal = $state(false);
 
   let filteredProducts = $derived(
     promiseProducts.then((products) => {
@@ -38,25 +42,30 @@
     promiseProducts = getProducts(categoryChosen);
   }
 
-  function clearSearch() {
+  function performSearch() {
+    promiseProducts = getProducts(category, searchQuery);
     searchQuery = "";
   }
 
-  function performSearch() {
-    promiseProducts = getProducts(category, searchQuery);
+  async function handleVote(productId: number, direction: string) {
+    await voteProduct(productId, direction);
   }
 
-  async function handleUpvote(productId: number) {
-    await voteProduct(productId, "up");
-  }
-
-  async function handleDownvote(productId: number) {
-    await voteProduct(productId, "down");
+  function modalLogin() {
+    showModal = true;
   }
 </script>
 
 <main>
-  <h1 id="title">MARKETPLACE</h1>
+  <div id="header">
+    <h1 id="title">MARKETPLACE</h1>
+    {#if !isLoggedIn}
+      <button id="login-button" onclick={modalLogin}>Login</button>
+    {/if}
+  </div>
+
+  <!-- Modal for login and registration -->
+  <RegisterAndLogin bind:showModal></RegisterAndLogin>
 
   <div id="search-container">
     <input
@@ -71,7 +80,9 @@
       }}
     />
     <button onclick={performSearch} id="search-button">Pesquisar</button>
-    <button onclick={clearSearch} id="clear-search-button">Limpar</button>
+    <button onclick={() => (searchQuery = "")} id="clear-search-button"
+      >Limpar</button
+    >
   </div>
 
   <div id="buttons-container">
@@ -85,67 +96,7 @@
     {#await filteredProducts}
       <p>Loading...</p>
     {:then products}
-      <CardProduct
-        {products}
-        onUpvote={handleUpvote}
-        onDownvote={handleDownvote}
-      />
+      <CardProduct {products} onVote={handleVote} />
     {/await}
   </div>
 </main>
-
-<style>
-  #title {
-    font-size: 48px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  #buttons-container {
-    display: flex;
-    text-decoration: none;
-    justify-content: center;
-    margin: 0px;
-  }
-
-  #search-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    gap: 10px;
-  }
-
-  #search-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 50%;
-    font-size: 16px;
-  }
-
-  #search-button,
-  #clear-search-button {
-    padding: 10px 15px;
-    border: 1px solid #007bff;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-
-  #clear-search-button {
-    background-color: #f8f9fa;
-    color: #212529;
-    border-color: #ccc;
-  }
-
-  #search-button:hover {
-    background-color: #0056b3;
-  }
-
-  #clear-search-button:hover {
-    background-color: #e2e6ea;
-  }
-</style>

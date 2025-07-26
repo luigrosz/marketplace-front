@@ -13,12 +13,10 @@
 
   let {
     products,
-    onUpvote,
-    onDownvote,
+    onVote,
   }: {
     products: Product[];
-    onUpvote: (productId: number) => void;
-    onDownvote: (productId: number) => void;
+    onVote: (productId: number, direction: string) => void;
   } = $props();
 </script>
 
@@ -32,14 +30,14 @@
         <div class="vote-controls">
           <button
             class="vote-button upvote"
-            onclick={() => onUpvote(product.id)}
+            onclick={() => onVote(product.id, "up")}
           >
             ▲
           </button>
           <p class="product-votes">Votes: {product.votes}</p>
           <button
             class="vote-button downvote"
-            onclick={() => onDownvote(product.id)}
+            onclick={() => onVote(product.id, "down")}
           >
             ▼
           </button>

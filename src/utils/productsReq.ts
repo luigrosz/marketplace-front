@@ -1,12 +1,5 @@
 const url = "http://localhost";
 const port = 3001;
-// const routes = [users, products, auth];
-
-export const ids_categorias = {
-  Eletronicos: 1,
-  Moveis: 2,
-  Roupas: 3,
-}
 
 interface Product {
   id: string;
@@ -63,6 +56,12 @@ async function postReq(route: string, body: any): Promise<any> {
     console.error("Error fetching data:", error);
     throw error;
   }
+}
+
+export const ids_categorias = {
+  Eletronicos: 1,
+  Moveis: 2,
+  Roupas: 3,
 }
 
 type ProductCategory = keyof typeof ids_categorias;

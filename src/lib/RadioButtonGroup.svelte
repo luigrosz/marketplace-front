@@ -32,11 +32,11 @@
   .button-group {
     display: flex;
     justify-content: space-around;
-    width: 70%;
   }
 
   button {
     padding: 7px 10px;
+    margin: 0 0.3rem;
     border: 1px solid #ccc;
     background-color: #f0f0f0;
     cursor: pointer;
