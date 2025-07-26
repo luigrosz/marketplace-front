@@ -1,7 +1,7 @@
 <script lang="ts">
   import CardProduct from "./lib/CardProduct.svelte";
   import RadioButtonGroup from "./lib/RadioButtonGroup.svelte";
-  import { getProducts } from "./utils/productsReq";
+  import { getProducts, voteProduct } from "./utils/productsReq";
 
   type ProductCategory = "Todos" | "Roupas" | "Eletronicos" | "Moveis";
   const categoryOptions: ProductCategory[] = [
@@ -12,7 +12,7 @@
   ];
 
   // interface Product {
-  //   id: string;
+  //   id: number;
   //   name: string;
   //   category_id: number;
   //   user_id: number;
@@ -44,6 +44,14 @@
 
   function performSearch() {
     promiseProducts = getProducts(category, searchQuery);
+  }
+
+  async function handleUpvote(productId: number) {
+    await voteProduct(productId, "up");
+  }
+
+  async function handleDownvote(productId: number) {
+    await voteProduct(productId, "down");
   }
 </script>
 
@@ -77,7 +85,11 @@
     {#await filteredProducts}
       <p>Loading...</p>
     {:then products}
-      <CardProduct {products} />
+      <CardProduct
+        {products}
+        onUpvote={handleUpvote}
+        onDownvote={handleDownvote}
+      />
     {/await}
   </div>
 </main>

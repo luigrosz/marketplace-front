@@ -1,6 +1,6 @@
 <script lang="ts">
   interface Product {
-    id: string;
+    id: number;
     name: string;
     category_id: number;
     user_id: number;
@@ -13,8 +13,12 @@
 
   let {
     products,
+    onUpvote,
+    onDownvote,
   }: {
     products: Product[];
+    onUpvote: (productId: number) => void;
+    onDownvote: (productId: number) => void;
   } = $props();
 </script>
 
@@ -25,7 +29,21 @@
       <div class="product-info">
         <h3 class="product-name">{product.name}</h3>
         <p class="product-price">R$ {product.price}</p>
-        <p class="product-votes">Votes: {product.votes}</p>
+        <div class="vote-controls">
+          <button
+            class="vote-button upvote"
+            onclick={() => onUpvote(product.id)}
+          >
+            ▲
+          </button>
+          <p class="product-votes">Votes: {product.votes}</p>
+          <button
+            class="vote-button downvote"
+            onclick={() => onDownvote(product.id)}
+          >
+            ▼
+          </button>
+        </div>
       </div>
     </div>
   {/each}
@@ -80,8 +98,36 @@
     margin-bottom: 5px;
   }
 
+  .vote-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .vote-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vote-button:hover {
+    background-color: #0056b3;
+  }
+
   .product-votes {
     font-size: 0.9em;
     color: #6c757d;
+    min-width: 80px; /* Ensure enough space for votes */
   }
 </style>

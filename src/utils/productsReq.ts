@@ -30,8 +30,6 @@ async function getReq(route: string): Promise<any> {
       },
     });
 
-    console.log(response);
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -84,4 +82,13 @@ export async function getProducts(category: ProductCategory | "Todos", search?: 
 export async function createProduct(product: Product) {
   const result = await postReq("products", product);
   return result;
+}
+
+export async function voteProduct(id: number, direction: string) {
+  if (direction == "up") {
+    console.log("UPVOTE");
+    return;
+  }
+  console.log("DOWNVOTE");
+  return;
 }
