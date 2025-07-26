@@ -69,12 +69,15 @@ async function postReq(route: string, body: any): Promise<any> {
 
 type ProductCategory = keyof typeof ids_categorias;
 
-export async function products(category: ProductCategory | "Todos") {
-  if (category === "Todos") {
-    const result = await getReq("products");
-    return result;
+export async function getProducts(category: ProductCategory | "Todos", search?: string) {
+  let route = "products";
+  if (category !== "Todos") {
+    route += `/?category=${ids_categorias[category]}`;
   }
-  const result = await getReq(`products/?category=${ids_categorias[category]}`);
+  if (search) {
+    route += category === "Todos" ? `/?name=${search}` : `&name=${search}`;
+  }
+  const result = await getReq(route);
   return result;
 }
 

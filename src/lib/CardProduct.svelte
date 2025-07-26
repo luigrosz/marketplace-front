@@ -24,7 +24,7 @@
       <img src={product.image_url} alt={product.name} class="product-image" />
       <div class="product-info">
         <h3 class="product-name">{product.name}</h3>
-        <p class="product-price">${product.price}</p>
+        <p class="product-price">R$ {product.price}</p>
         <p class="product-votes">Votes: {product.votes}</p>
       </div>
     </div>
@@ -35,8 +35,9 @@
   .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    gap: 50px;
     padding: 20px;
+    margin-top: 15px;
     justify-content: center;
   }
 
