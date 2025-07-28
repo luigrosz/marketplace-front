@@ -1,13 +1,12 @@
 const url = "http://localhost";
 const port = 3001;
-// const routes = [users, products, auth];
-
 
 export async function login(username: string, password: string): Promise<any> {
-  let fullUrl = `${url}:${port}/auth`;
+  let fullUrl = `${url}:${port}/auth/login`;
   try {
     const response = await fetch(fullUrl, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -21,10 +20,19 @@ export async function login(username: string, password: string): Promise<any> {
     const data = await response.json();
     return data;
   } catch (error) {
-    if (error === '401') {
-      console.log("Invalid credentials");
-    }
-    console.error("Error logging in");
     return Promise.reject(error);
+  }
+}
+
+export async function verifyLogin() {
+  let fullUrl = `${url}:${port}/auth/me`;
+  try {
+    let response = await fetch(fullUrl, {
+      credentials: 'include'
+    });
+    let data = await response.json();
+    return data.loggedIn;
+  } catch (e) {
+    return false;
   }
 }

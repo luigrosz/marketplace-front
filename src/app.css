@@ -32,7 +32,7 @@
   margin-top: 0px;
 }
 
-#login-button {
+.log-buttons {
   padding: 0.625rem 1rem;
   border: 1px solid #6c757d;
   background-color: #6c757d;
@@ -45,7 +45,7 @@
   padding: 0.625rem 1.25rem;
 }
 
-#login-button:hover {
+.log-buttons:hover {
   background-color: #5a6268;
 }
 
@@ -122,17 +122,19 @@
   }
 
   #search-input {
-    width: 60%;
     font-size: 1rem;
   }
 
   #search-button,
   #clear-search-button {
-    width: 50%;
     padding: 0.625rem 1rem;
   }
 
   #buttons-container {
     padding: 0;
+  }
+
+  .search-buttons {
+    max-width: 100px;
   }
 }
