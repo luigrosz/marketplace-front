@@ -32,7 +32,7 @@
       return alert("Usuario nao encontrado.");
     }
     response = await login(loginEmail, loginPassword);
-    if (response.error) {=
+    if (response.error) {
       return alert(response.error);
     }
     if (response.message === "Invalid credentials") {

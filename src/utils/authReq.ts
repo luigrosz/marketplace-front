@@ -1,5 +1,4 @@
-const url = "http://localhost";
-const port = 3001;
+import { url, port } from "./url";
 
 export async function login(username: string, password: string): Promise<any> {
   let fullUrl = `${url}:${port}/auth/login`;

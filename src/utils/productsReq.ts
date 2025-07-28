@@ -1,5 +1,4 @@
-const url = "http://localhost";
-const port = 3001;
+import { url, port } from "./url";
 
 interface Product {
   id: string;

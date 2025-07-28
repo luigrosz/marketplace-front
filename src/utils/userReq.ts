@@ -1,5 +1,4 @@
-const url = "http://localhost";
-const port = 3001;
+import { url, port } from "./url";
 
 export async function getUserByUsername(username: string): Promise<any> {
   let fullUrl = `${url}:${port}/users/getUserByUsername`;
